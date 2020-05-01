@@ -80,19 +80,46 @@ WHERE employees.`department_id`=departments.`department_id`
 ②区分多个重名的字段
 注意：如果为表起了别名，则查询的字段就不能使用原来的表名去限定
 */
+SELECT salary,`department_id`,`job_id`
+FROM `employees`
+WHERE `department_id`=90
+AND `job_id` LIKE 'AD_VP';
+
+#案例：查询每个工种的工种名和员工的个数，并且按员工个数降序
+
+SELECT job_title,COUNT(*)
+FROM employees e,jobs j
+WHERE e.`job_id`=j.`job_id`
+GROUP BY job_title
+ORDER BY COUNT(*) DESC;
+
+#7、可以实现三表连接？
+
+#案例：查询员工名、部门名和所在的城市
+SELECT last_name,department_name,city
+FROM employees e,departments d,locations l
+WHERE e.`department_id`=d.`department_id`
+AND d.`location_id`=l.`location_id`
+AND city LIKE 's%'
+
+ORDER BY department_name DESC;
+
+#2、非等值连接
 
 
+#案例1：查询员工的工资和工资级别
+
+
+SELECT salary,grade_level
+FROM employees e,job_grades g
+WHERE salary BETWEEN g.`lowest_sal` AND g.`highest_sal`
+AND g.`grade_level`='A';
 
 #函数
 /*
 	count
+	
 */
-SELECT AVG(salary),`department_id`,`job_id`
-FROM `employees`
-GROUP BY `department_id`,`job_id`;
 
-SELECT salary,`department_id`,`job_id`
-FROM `employees`
-WHERE `department_id`=90
-#and `job_id`='AD_VP';
+
 
